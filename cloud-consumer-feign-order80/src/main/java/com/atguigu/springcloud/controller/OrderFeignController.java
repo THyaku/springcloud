@@ -22,6 +22,14 @@ public class OrderFeignController
         return paymentFeignService.getPaymentById(id);
     }
 
+    //验证feign的超时控制
+    @GetMapping(value = "/consumer/payment/feign/timeout")
+    public String paymentFeignTimeout()
+    {
+        // OpenFeign客户端一般默认等待1秒钟
+        return paymentFeignService.paymentFeignTimeout();
+    }
+
 }
 
 
