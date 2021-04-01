@@ -1,0 +1,19 @@
+server:
+  port: 80
+
+eureka:
+  client:
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/ #走单节点
+      #defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
+#开启  不管用  order 服务怎样都是返回fallback
+feign:
+  hystrix:
+    enabled: true
+#ribbon:
+#  ConnectTimeout: 1000 # 建立连接超时时长
+#  ReadTimeout: 5000 # 读取响应数据超时时长
+#  MaxAutoRetries: 0 # 当前服务器的重试次数
+#  MaxAutoRetriesNextServer: 1 # 重试多少个服务节点
+#  OkToRetryOnAllOperations: false # 是否对所有的请求方式都重试(只对查询)

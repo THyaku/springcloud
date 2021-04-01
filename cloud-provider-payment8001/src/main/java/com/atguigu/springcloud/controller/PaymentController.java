@@ -2,6 +2,7 @@ package com.atguigu.springcloud.controller;
 
 import com.atguigu.springcloud.entities.CommonResult;
 import com.atguigu.springcloud.entities.Payment;
+import com.atguigu.springcloud.entities.User;
 import com.atguigu.springcloud.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,6 +57,21 @@ public class PaymentController{
         }else{
             log.info("没有对应记录,查询ID: "+id);
             return new CommonResult(444,"没有对应记录,查询ID: "+id,null);
+        }
+    }
+
+    @PostMapping(value = "/payment/login")
+    public CommonResult<Payment> login(@RequestBody User user)
+    {
+        Payment payment = paymentService.getPaymentById(user.getUserCode());
+        log.info(user.toString());
+        if(payment != null && payment.getSerial() != null && payment.getSerial().equals(user.getPassword()))
+        {
+            log.info("登录成功,serverPort:  "+serverPort,payment);
+            return new CommonResult(200,"查询成功,serverPort:  "+serverPort,payment);
+        }else{
+            log.info("没有对应记录,查询ID: "+user.getPassword());
+            return new CommonResult(444,"没有对应记录,查询ID: "+user.getPassword(),null);
         }
     }
 
