@@ -1,0 +1,31 @@
+被监控的服务，需在启动类里加上：
+    /**
+     *此配置是为了服务监控而配置，与服务容错本身无关，springcloud升级后的坑
+     *ServletRegistrationBean因为springboot的默认路径不是"/hystrix.stream"，
+     *只要在自己的项目里配置上下面的servlet就可以了
+     *否则，Unable to connect to Command Metric Stream 404
+     */
+    @Bean
+    public ServletRegistrationBean getServlet() {
+        HystrixMetricsStreamServlet streamServlet = new HystrixMetricsStreamServlet();
+        ServletRegistrationBean registrationBean = new ServletRegistrationBean(streamServlet);
+        registrationBean.setLoadOnStartup(1);
+        registrationBean.addUrlMappings("/hystrix.stream");
+        registrationBean.setName("HystrixMetricsStreamServlet");
+        return registrationBean;
+    }
+
+
+
+
+9001监控8001 - 填写监控地址 - http://localhost:8001/hystrix.stream 到 http://localhost:9001/hystrix页面的输入框。
+
+测试地址
+
+http://localhost:8001/payment/circuit/1
+
+http://localhost:8001/payment/circuit/-1
+
+测试通过
+
+先访问正确地址，再访问错误地址，再正确地址，会发现图示断路器都是慢慢放开的。

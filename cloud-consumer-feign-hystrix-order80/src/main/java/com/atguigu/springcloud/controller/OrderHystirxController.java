@@ -1,7 +1,6 @@
 package com.atguigu.springcloud.controller;
 
 import com.atguigu.springcloud.service.PaymentHystrixService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +25,9 @@ public class OrderHystirxController {
     }
 
     @GetMapping("/consumer/payment/hystrix/timeout/{id}")
-    @HystrixCommand(fallbackMethod = "paymentTimeOutFallbackMethod"/*,commandProperties = {
-            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="3000")
-    }*/)
+//    @HystrixCommand(fallbackMethod = "paymentTimeOutFallbackMethod",commandProperties = {
+//            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="3000")
+//    })
 //    @HystrixCommand //避免代码膨胀，用全局的fallback方法
     public String paymentInfo_TimeOut(@PathVariable("id") Integer id) {
         //int age = 10/0;

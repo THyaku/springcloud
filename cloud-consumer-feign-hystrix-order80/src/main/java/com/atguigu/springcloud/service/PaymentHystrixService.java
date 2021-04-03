@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 /**
  */
 //@Component
-@FeignClient(value = "CLOUD-PROVIDER-HYSTRIX-PAYMENT" /*,fallback = PaymentFallbackService.class*/)
+@FeignClient(value = "CLOUD-PROVIDER-HYSTRIX-PAYMENT" ,fallback = PaymentFallbackService.class)
 //新建一个类(PaymentFallbackService)实现该接口，统一为接口里面的方法进行异常处理
 public interface PaymentHystrixService
 {
