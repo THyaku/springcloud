@@ -1,19 +1,42 @@
 server:
   port: 80
 
+spring:
+  application:
+    name: cloud-consumer-feign-hystrix-order80
+
 eureka:
   client:
     register-with-eureka: false
     service-url:
       defaultZone: http://eureka7001.com:7001/eureka/ #走单节点
       #defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
-#开启  不管用  order 服务怎样都是返回fallback
+# 由于enabled设置为true，ribbon，hystrix都有对请求超时的控制权，
+# 所以建议ribbon.ReadTimeout和timeoutInMilliseconds是指的时间一致
+# 该配置为该注解fallback的前置条件，必须开启 @FeignClient(value = "CLOUD-PROVIDER-HYSTRIX-PAYMENT" ,fallback = PaymentFallbackService.class)
 feign:
   hystrix:
-    enabled: true
-#ribbon:
-#  ConnectTimeout: 1000 # 建立连接超时时长
-#  ReadTimeout: 5000 # 读取响应数据超时时长
-#  MaxAutoRetries: 0 # 当前服务器的重试次数
-#  MaxAutoRetriesNextServer: 1 # 重试多少个服务节点
-#  OkToRetryOnAllOperations: false # 是否对所有的请求方式都重试(只对查询)
+    enabled: true #开启服务降级等功能
+
+# 这儿备注下：自己调用自己方法不用加链接时间，但是服务间调用必须加，不然只会默认服务间链接1秒
+ribbon:
+  ConnectTimeout: 1000 #指的是建立连接所用的时间，适用于网络状况正常的情况下,两端连接所用的时间
+  ReadTimeout: 4000 # 读取响应数据超时时长
+  MaxAutoRetries: 0 # 当前服务器的重试次数
+  MaxAutoRetriesNextServer: 1 # 重试多少个服务节点
+  OkToRetryOnAllOperations: false # 是否对所有的请求方式都重试(只对查询)
+#hystrix的超时时间设置
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "*"
+  command:
+    default:  #default全局有效，也可以设置为service id，即对指定服务有效
+      execution:
+        timeout:
+          #如果enabled设置为false，则请求超时由ribbon.ReadTimeout决定,
+          #如果设置为true,则取ribbon.ReadTimeout和timeoutInMilliseconds中的较小的值作为超时时间
+          #如果不设置ribbon.ReadTimeout，等同于ribbon.ReadTimeout=5s，即取了默认值
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 2500 #断路器超时时间，默认1000ms
