@@ -1,0 +1,25 @@
+server:
+  port: 3344
+
+spring:
+  application:
+    name:  cloud-config-center #注册进Eureka服务器的微服务名
+  cloud:
+    config:
+      server:
+        git:
+          # uri: git@github.com:THyaku/springcloud-config.git 咋这个报错啊 要用下面的
+          uri: https://github.com/THyaku/springcloud-config.git #GitHub上面的git仓库名字
+          ####搜索目录
+          search-paths:
+            - springcloud-config
+      ####读取分支 默认是master分支
+      #http://localhost:3344/master/config-dev.yml和http://localhost:3344/config-dev.yml一样
+      #读仓库里dev分支的配置  http://localhost:3344/dev/config-dev.yml
+      label: master
+
+#服务注册到eureka地址
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
