@@ -42,6 +42,10 @@ spring:
 
             # curl http://localhost:9527/payment/lb?username=31
             # - Query=username, \d+
+
+#        filter:
+#          - AddRquestParameter=X-Request-Id,1024 #过滤器工厂会在匹配的请求头加上一对请求头，名称为X-Request-Id值为1024
+
 ####################################################################
 
 eureka:
