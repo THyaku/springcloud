@@ -28,6 +28,8 @@ rabbitmq:
 
 # 配置好后只需要在配置服务端执行 —次发送，处处生效
 # curl -X POST "http://localhost:3344/actuator/bus-refresh"
+# 若是想定点通知，例如只通知3355，不通知3366，这样只有3355会更新
+# curl -X POST "http://localhost:3344/actuator/bus-refresh/config-client:3355
 ##rabbitmq相关配置,暴露bus刷新配置的端点
 management:
   endpoints: #暴露bus刷新配置的端点
