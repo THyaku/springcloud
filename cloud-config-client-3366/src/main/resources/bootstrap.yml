@@ -1,0 +1,36 @@
+server:
+  port: 3366
+
+spring:
+  application:
+    name: config-client
+  cloud:
+    #Config客户端配置
+    config:
+      label: master #分支名称
+      name: config #配置文件名称
+      profile: dev #读取后缀名称   上述3个综合：master分支上config-dev.yml的配置文件被读取http://localhost:3344/master/config-dev.yml
+      uri: http://localhost:3344 #配置中心地址k
+
+  #rabbitmq相关配置 15672是Web管理界面的端口；5672是MQ访问的端口
+  # 注意 客户端是写在spring下 服务端是定格写
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+#服务注册到eureka地址
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+# 暴露监控端点  配合actuator包，业务类加上@RefreshScope注解
+# 每次改了配置，3344不需要重启，但是其他项目都必须重启，这很麻烦 这是手动刷新版 虽然不用重启 但是需要访问下post请求。手动刷新。
+# 相当于手动重新从3344拉取最新版 curl -X POST "http://localhost:3355/actuator/refresh"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # *是图省事

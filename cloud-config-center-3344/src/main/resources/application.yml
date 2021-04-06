@@ -18,6 +18,23 @@ spring:
       #读仓库里dev分支的配置  http://localhost:3344/dev/config-dev.yml
       label: master
 
+#rabbitmq相关配置
+# 注意 客户端是写在spring下 服务端是定格写
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: guest
+  password: guest
+
+# 配置好后只需要在配置服务端执行 —次发送，处处生效
+# curl -X POST "http://localhost:3344/actuator/bus-refresh"
+##rabbitmq相关配置,暴露bus刷新配置的端点
+management:
+  endpoints: #暴露bus刷新配置的端点
+    web:
+      exposure:
+        include: 'bus-refresh'
+
 #服务注册到eureka地址
 eureka:
   client:
