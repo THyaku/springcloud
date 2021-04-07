@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 import java.util.UUID;
 
 /**
- * 注意  这儿就不是什么@service  而是绑定推送管道，生产者绑定Source 消费者绑定slink
+ * 注意  这儿就不是什么@service  而是绑定推送管道，生产者绑定Source 消费者绑定sink
  */
 @EnableBinding(Source.class) //定义消息的推送管道
 public class MessageProviderImpl implements IMessageProvider
