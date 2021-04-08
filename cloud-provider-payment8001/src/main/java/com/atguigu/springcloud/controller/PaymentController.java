@@ -108,4 +108,18 @@ public class PaymentController{
         }
         return serverPort;
     }
+
+    /**
+     * 在微服务框架中，一个由客户端发起的请求在后端系统中会经过多个不同的的服务节点调用来协同产生最后的请求结果，
+     * 每一个前段请求都会形成一条复杂的分布式服务调用链路，链路中的任何一环出现高延时或错误都会引起整个请求最后的失败。
+     * Spring Cloud Sleuth提供了一套完整的服务跟踪的解决方案
+     * SpringCloud从F版起已不需要自己构建Zipkin Server了，只需调用jar包即可 我现在用的H版
+     * 完整的调用链路：表示一请求链路，一条链路通过Trace ld唯一标识，Span标识发起的请求信息，各span通过parent id关联起来，直白说就是链表
+     * Sleuth负责收集   Zipkin负责展示
+     * @return
+     */
+    @GetMapping("/payment/zipkin")
+    public String paymentZipkin() {
+        return "hi ,i'am paymentzipkin server fall back，welcome to here, O(∩_∩)O哈哈~";
+    }
 }

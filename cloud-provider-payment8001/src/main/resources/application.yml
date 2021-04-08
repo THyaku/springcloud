@@ -5,8 +5,8 @@ eureka:
     #是否从EurekaServer抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡
     fetchRegistry: true
     service-url:
-      #defaultZone: http://localhost:7001/eureka #单机版
-      defaultZone: http://eureka7001.com:7001/eureka, http://eureka7002.com:7002/eureka #集群版
+      defaultZone: http://localhost:7001/eureka #单机版
+      #defaultZone: http://eureka7001.com:7001/eureka, http://eureka7002.com:7002/eureka #集群版
   instance:
     instance-id: payment8001 #eureka界面服务名称修改（也就是将IP地址，换成可读性高的名字）
     prefer-ip-address: true #访问信息有IP信息提示，（就是将鼠标指针移至payment8001，payment8002名下，会有IP地址提示）
@@ -23,6 +23,16 @@ server:
 spring:
   application:
     name: cloud-payment-service
+  # 在微服务框架中，一个由客户端发起的请求在后端系统中会经过多个不同的的服务节点调用来协同产生最后的请求结果，
+  # 每一个前段请求都会形成一条复杂的分布式服务调用链路，链路中的任何一环出现高延时或错误都会引起整个请求最后的失败。
+  # Spring Cloud Sleuth提供了一套完整的服务跟踪的解决方案
+  # SpringCloud从F版起已不需要自己构建Zipkin Server了，只需调用jar包即可 我现在用的H版
+  zipkin: #
+    base-url: http://localhost:9411
+    sleuth: #<-------------------------------------关键
+      sampler:
+      #采样率值介于 0 到 1 之间，1 则表示全部采集
+      probability: 1
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
     driver-class-name: com.mysql.cj.jdbc.Driver              # mysql驱动包
