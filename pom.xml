@@ -37,6 +37,11 @@
       <module>cloudalibaba-consumer-nacos-order83</module>
     <module>cloudalibaba-config-nacos-client3377</module>
       <module>cloudalibaba-sentinel-service8401</module>
+    <module>auth-service</module>
+    <module>user-service</module>
+      <module>cloudalibaba-provider-payment9003</module>
+      <module>cloudalibaba-provider-payment9004</module>
+      <module>cloudalibaba-consumer-nacos-order84</module>
   </modules>
 
 
@@ -51,6 +56,7 @@
     <mysql.version>8.0.23</mysql.version>
     <druid.version>1.1.16</druid.version>
     <mybatis.spring.boot.version>2.1.1</mybatis.spring.boot.version>
+    <spring.boot.starter.parent.version>1.5.3.RELEASE</spring.boot.starter.parent.version>
   </properties>
   <!--子模块继承之后，提供作用：锁定版本+子module不用谢groupId和version-->
   <dependencyManagement>
