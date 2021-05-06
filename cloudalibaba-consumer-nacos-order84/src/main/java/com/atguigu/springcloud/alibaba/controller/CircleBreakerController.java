@@ -24,12 +24,15 @@ public class CircleBreakerController {
     //@SentinelResource(value = "fallback")//没有配置
     //@SentinelResource(value = "fallback",fallback = "handlerFallback") //fallback只负责业务异常
     //@SentinelResource(value = "fallback",blockHandler = "blockHandler") //blockHandler只负责sentinel控制台配置违规
-    @SentinelResource(value = "fallback",fallback = "handlerFallback",blockHandler = "blockHandler")
+    @SentinelResource(value = "fallback",fallback = "handlerFallback",blockHandler = "blockHandler",
+            exceptionsToIgnore = {IllegalArgumentException.class})
     public CommonResult<Payment> fallback(@PathVariable Long id)
     {
         CommonResult<Payment> result = restTemplate.getForObject(SERVICE_URL + "/paymentSQL/"+id,CommonResult.class,id);
 
         if (id == 4) {
+            //exceptionsToIgnore属性有IllegalArgumentException.class，
+            //所以IllegalArgumentException不会跳入指定的兜底程序。
             throw new IllegalArgumentException ("IllegalArgumentException,非法参数异常....");
         }else if (result.getData() == null) {
             throw new NullPointerException ("NullPointerException,该ID没有对应记录,空指针异常");
